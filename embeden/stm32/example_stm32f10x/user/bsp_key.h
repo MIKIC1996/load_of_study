@@ -17,10 +17,10 @@
 #define KEY_ON 		1
 #define KEY_OFF 	0
 
-///³õÊ¼»¯²Ù×÷
+///åˆå§‹åŒ–æ“ä½œ
 void key_gpio_config();
 
-///¼ì²â°´¼ü
+///æ£€æµ‹æŒ‰é”®
 uint8_t key_scan(GPIO_TypeDef* port,uint16_t pin);
 
 

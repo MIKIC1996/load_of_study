@@ -171,39 +171,39 @@ void SysTick_Handler(void)
   * @}
   */ 
 	
-	//exti0 ÖĞ¶Ï
+	//exti0 ä¸­æ–­
 	void KEY1_IRQHandler(void)
 {
-  //È·±£ÊÇ·ñ²úÉúÁËEXTI LineÖĞ¶Ï
+  //ç¡®ä¿æ˜¯å¦äº§ç”Ÿäº†EXTI Lineä¸­æ–­
 	if(EXTI_GetITStatus(KEY1_EXTI_LINE) != RESET) 
 	{
-		// LED1 È¡·´		
+		// LED1 å–å		
 		LED1_TOGGLE;
-    //Çå³ıÖĞ¶Ï±êÖ¾Î»
+    //æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
 		EXTI_ClearITPendingBit(KEY1_EXTI_LINE);     
 	}  
 }
 
 
-///exit 13ÖĞ¶Ï
+///exit 13ä¸­æ–­
 void KEY2_IRQHandler(void)
 {
-  //È·±£ÊÇ·ñ²úÉúÁËEXTI LineÖĞ¶Ï
+  //ç¡®ä¿æ˜¯å¦äº§ç”Ÿäº†EXTI Lineä¸­æ–­
 	if(EXTI_GetITStatus(KEY2_EXTI_LINE) != RESET) 
 	{
-		// LED2 È¡·´		
+		// LED2 å–å		
 		LED3_TOGGLE;
-    //Çå³ıÖĞ¶Ï±êÖ¾Î»
+    //æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
 		EXTI_ClearITPendingBit(KEY2_EXTI_LINE);     
 	}  
 }
 
 
 
-///´®¿ÚÖĞ¶Ï
+///ä¸²å£ä¸­æ–­
 void SDY_USART_IRQ_HANDLER(void){
 
-	///ÊÕµ½Êı¾İºóÁ¢¿Ì»Ø´«
+	///æ”¶åˆ°æ•°æ®åç«‹åˆ»å›ä¼ 
 	if(USART_GetITStatus(SDY_USART,USART_IT_RXNE) != RESET){
 		uint8_t tmpCh = USART_ReceiveData(SDY_USART);
 		USART_SendData(SDY_USART,tmpCh);

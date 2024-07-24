@@ -17,12 +17,12 @@
 ///EXTI marco
 #define KEY1_EXTI_PORT		GPIO_PortSourceGPIOA
 #define KEY1_EXTI_PIN			GPIO_PinSource0
-#define KEY1_EXTI_LINE		EXTI_Line0 //”√0∫≈œﬂ
+#define KEY1_EXTI_LINE		EXTI_Line0 //Áî®0Âè∑Á∫ø
 #define KEY1_EXTI_CLK			(RCC_APB2Periph_GPIOA|RCC_APB2Periph_AFIO)
 
 #define KEY2_EXTI_PORT		GPIO_PortSourceGPIOC
 #define KEY2_EXTI_PIN			GPIO_PinSource13
-#define KEY2_EXTI_LINE		EXTI_Line13 //”√13∫≈œﬂ
+#define KEY2_EXTI_LINE		EXTI_Line13 //Áî®13Âè∑Á∫ø
 #define KEY2_EXTI_CLK			(RCC_APB2Periph_GPIOC|RCC_APB2Periph_AFIO)
 
 ///handle marco

@@ -4,10 +4,10 @@
 
 
 static void NVIC_config(){
-	///NVICµÄÓÅÏÈ¼¶Ä£Ê½ÉèÖÃ
+	///NVICçš„ä¼˜å…ˆçº§æ¨¡å¼è®¾ç½®
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
 	
-	///ÉèÖÃEXTI,Ê¹ÄÜ+ÉèÖÃÓÅÏÈ¼¶
+	///è®¾ç½®EXTI,ä½¿èƒ½+è®¾ç½®ä¼˜å…ˆçº§
 	NVIC_InitTypeDef init;
 	init.NVIC_IRQChannelPreemptionPriority = 1;
 	init.NVIC_IRQChannelSubPriority = 1;
@@ -23,14 +23,14 @@ static void NVIC_config(){
 
 
 void key_exti_config(){
-	///ÅäÖÃnvic
+	///é…ç½®nvic
 	NVIC_config();
 	
-	//¿ªÆôÍâÉèÊ±ÖÓ GPIO + AFIO
+	//å¼€å¯å¤–è®¾æ—¶é’Ÿ GPIO + AFIO
 	RCC_APB2PeriphClockCmd(KEY1_EXTI_CLK,ENABLE);
 	RCC_APB2PeriphClockCmd(KEY2_EXTI_CLK,ENABLE);
 	
-	//GPIOÉèÖÃ
+	//GPIOè®¾ç½®
 	GPIO_InitTypeDef ginit;
 	ginit.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	ginit.GPIO_Pin = KEY1_GPIO_PIN;
@@ -38,20 +38,20 @@ void key_exti_config(){
 	ginit.GPIO_Pin = KEY2_GPIO_PIN;
 	GPIO_Init(KEY2_GPIO_PORT,&ginit);
 	
-	//AFIO ÉèÖÃ 
-	GPIO_EXTILineConfig(KEY1_EXTI_PORT,KEY1_EXTI_PIN); //ÆôÓÃGPIO pin×÷ÎªEXTI
+	//AFIO è®¾ç½® 
+	GPIO_EXTILineConfig(KEY1_EXTI_PORT,KEY1_EXTI_PIN); //å¯ç”¨GPIO pinä½œä¸ºEXTI
 	GPIO_EXTILineConfig(KEY2_EXTI_PORT,KEY2_EXTI_PIN); 
 	
 	EXTI_InitTypeDef einit;
-	einit.EXTI_Mode = EXTI_Mode_Interrupt; //ÖĞ¶ÏÄ£Ê½
+	einit.EXTI_Mode = EXTI_Mode_Interrupt; //ä¸­æ–­æ¨¡å¼
 	einit.EXTI_LineCmd = ENABLE;
 	
 	einit.EXTI_Line = KEY1_EXTI_LINE;
-	einit.EXTI_Trigger = EXTI_Trigger_Rising; //key1ÉÏÉıÑØÖĞ¶Ï
+	einit.EXTI_Trigger = EXTI_Trigger_Rising; //key1ä¸Šå‡æ²¿ä¸­æ–­
 	EXTI_Init(&einit);
 	
 	einit.EXTI_Line = KEY2_EXTI_LINE;
-	einit.EXTI_Trigger = EXTI_Trigger_Falling; //key2ÏÂ½µÑØÖĞ¶Ï
+	einit.EXTI_Trigger = EXTI_Trigger_Falling; //key2ä¸‹é™æ²¿ä¸­æ–­
 	EXTI_Init(&einit);
 	
 

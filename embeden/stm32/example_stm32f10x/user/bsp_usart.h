@@ -5,9 +5,9 @@
 #include <stdio.h>
 
 /** 
-  * ���ں궨�壬��ͬ�Ĵ��ڹ��ص����ߺ�IO��һ������ֲʱ��Ҫ�޸��⼸����
-	* 1-�޸�����ʱ�ӵĺ꣬uart1���ص�apb2���ߣ�����uart���ص�apb1����
-	* 2-�޸�GPIO�ĺ�
+  * 串口宏定义，不同的串口挂载的总线和IO不一样，移植时需要修改这几个宏
+	* 1-修改总线时钟的宏，uart1挂载到apb2总线，其他uart挂载到apb1总线
+	* 2-修改GPIO的宏
   */
 #define SDY_USART								USART1
 #define SDY_USART_CLK						RCC_APB2Periph_USART1
@@ -17,7 +17,7 @@
 #define SDY_USART_GPIO_CLK						RCC_APB2Periph_GPIOA
 #define SDY_USART_GPIO_APB_X_CLKCMD     RCC_APB2PeriphClockCmd
 
-///USART ���õ�GPIO
+///USART 复用的GPIO
 #define  SDY_USART_TX_GPIO_PORT       GPIOA   
 #define  SDY_USART_TX_GPIO_PIN        GPIO_Pin_9
 #define  SDY_USART_RX_GPIO_PORT       GPIOA

@@ -15,7 +15,7 @@ void key_gpio_config(){
 
 uint8_t key_scan(GPIO_TypeDef* port,uint16_t pin){
 	if(GPIO_ReadInputDataBit(port,pin) == KEY_ON){
-		while(GPIO_ReadInputDataBit(port,pin) == KEY_ON); //µÈÓÃ»§ÊÍ·Å°´¼ü
+		while(GPIO_ReadInputDataBit(port,pin) == KEY_ON); //ç­‰ç”¨æˆ·é‡Šæ”¾æŒ‰é”®
 		return KEY_ON;
 	}else{
 		return KEY_OFF;

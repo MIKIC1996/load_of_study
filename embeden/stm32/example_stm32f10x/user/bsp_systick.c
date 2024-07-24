@@ -9,34 +9,34 @@ static uint32_t counter = 0;
 
 
 void systick_init(){
-	//ÅäÖÃÖĞ¶ÏÆµÂÊÎª 1ms
+	//é…ç½®ä¸­æ–­é¢‘ç‡ä¸º 1ms
 	if(0 !=  SysTick_Config(SystemCoreClock/SDY_SYSTICK_MS)){
 		while(1);
 	}
-	disableSystick(); //ÏÈ¹Ø±Õ¼ÆÊ±
+	disableSystick(); //å…ˆå…³é—­è®¡æ—¶
 }
 
 
-//Ê¹ÄÜ¶¨Ê±Æ÷
+//ä½¿èƒ½å®šæ—¶å™¨
 void enableSystick(){
 	SysTick->CTRL |=  SysTick_CTRL_ENABLE_Msk;	
 }
 
-//¹Ø±Õ¶¨Ê±Æ÷
+//å…³é—­å®šæ—¶å™¨
 void disableSystick(){
 	SysTick->CTRL &= ~SysTick_CTRL_ENABLE_Msk;
 }
 
 
-///Ã¿´ÎÖĞ¶Ïµ÷ÓÃÕâ¸öº¯Êı
+///æ¯æ¬¡ä¸­æ–­è°ƒç”¨è¿™ä¸ªå‡½æ•°
 void countByInq(){
 	if(counter != 0x00)
 		--counter;
 }
 
 
-///ÀûÓÃ¶¨Ê±Æ÷ºÍÖĞ¶ÏĞ´ÑÓÊ±º¯Êı
-///ÑÓÊ±¶àÉÙÃë
+///åˆ©ç”¨å®šæ—¶å™¨å’Œä¸­æ–­å†™å»¶æ—¶å‡½æ•°
+///å»¶æ—¶å¤šå°‘ç§’
 void delay_s(uint32_t s){
 	counter = s * 1000;
 	enableSystick();
@@ -45,7 +45,7 @@ void delay_s(uint32_t s){
 }
 
 
-///ÑÓÊ±¶àÉÙÃë
+///å»¶æ—¶å¤šå°‘ç§’
 void delay_ms(uint32_t ms){
 	counter = ms;
 	enableSystick();
@@ -55,10 +55,10 @@ void delay_ms(uint32_t ms){
 
 
 
-// couter ¼õ1µÄÊ±¼ä µÈÓÚ 1/systick_clk
-// µ±counter ´Ó reload µÄÖµ¼õĞ¡µ½0µÄÊ±ºò£¬ÎªÒ»¸öÑ­»·£¬Èç¹û¿ªÆôÁËÖĞ¶ÏÔòÖ´ĞĞÖĞ¶Ï·şÎñ³ÌĞò£¬
-// Í¬Ê± CTRL µÄ countflag Î»»áÖÃ1
-// ÕâÒ»¸öÑ­»·µÄÊ±¼äÎª reload * (1/systick_clk)
+// couter å‡1çš„æ—¶é—´ ç­‰äº 1/systick_clk
+// å½“counter ä» reload çš„å€¼å‡å°åˆ°0çš„æ—¶å€™ï¼Œä¸ºä¸€ä¸ªå¾ªç¯ï¼Œå¦‚æœå¼€å¯äº†ä¸­æ–­åˆ™æ‰§è¡Œä¸­æ–­æœåŠ¡ç¨‹åºï¼Œ
+// åŒæ—¶ CTRL çš„ countflag ä½ä¼šç½®1
+// è¿™ä¸€ä¸ªå¾ªç¯çš„æ—¶é—´ä¸º reload * (1/systick_clk)
 
 void SysTick_Delay_Us( __IO uint32_t us)
 {
@@ -67,10 +67,10 @@ void SysTick_Delay_Us( __IO uint32_t us)
 	
 	for(i=0;i<us;i++)
 	{
-		// µ±¼ÆÊıÆ÷µÄÖµ¼õĞ¡µ½0µÄÊ±ºò£¬CRTL¼Ä´æÆ÷µÄÎ»16»áÖÃ1	
+		// å½“è®¡æ•°å™¨çš„å€¼å‡å°åˆ°0çš„æ—¶å€™ï¼ŒCRTLå¯„å­˜å™¨çš„ä½16ä¼šç½®1	
 		while( !((SysTick->CTRL)&(1<<16)) );
 	}
-	// ¹Ø±ÕSysTick¶¨Ê±Æ÷
+	// å…³é—­SysTickå®šæ—¶å™¨
 	SysTick->CTRL &=~SysTick_CTRL_ENABLE_Msk;
 }
 
@@ -81,11 +81,11 @@ void SysTick_Delay_Ms( __IO uint32_t ms)
 	
 	for(i=0;i<ms;i++)
 	{
-		// µ±¼ÆÊıÆ÷µÄÖµ¼õĞ¡µ½0µÄÊ±ºò£¬CRTL¼Ä´æÆ÷µÄÎ»16»áÖÃ1
-		// µ±ÖÃ1Ê±£¬¶ÁÈ¡¸ÃÎ»»áÇå0
+		// å½“è®¡æ•°å™¨çš„å€¼å‡å°åˆ°0çš„æ—¶å€™ï¼ŒCRTLå¯„å­˜å™¨çš„ä½16ä¼šç½®1
+		// å½“ç½®1æ—¶ï¼Œè¯»å–è¯¥ä½ä¼šæ¸…0
 		while( !((SysTick->CTRL)&(1<<16)) );
 	}
-	// ¹Ø±ÕSysTick¶¨Ê±Æ÷
+	// å…³é—­SysTickå®šæ—¶å™¨
 	SysTick->CTRL &=~ SysTick_CTRL_ENABLE_Msk;
 }
 

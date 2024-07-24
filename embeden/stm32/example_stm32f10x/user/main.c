@@ -22,7 +22,7 @@ void led_exti_test(){
 }
 
 
-///¸ôÒ»¶¨Ê±¼äÁÁµÆ
+///éš”ä¸€å®šæ—¶é—´äº®ç¯
 void systick_test(){
 	led_gpio_config();
 	systick_init();
@@ -42,8 +42,8 @@ void systick_test(){
 void usart_test_send_str(){
 	sdy_usart_config();
 	
-	sdy_usart_send_string(SDY_USART,"´®¿Ú²âÊÔ\n");
-	printf("ÎÒÊÇstm32f103\n");
+	sdy_usart_send_string(SDY_USART,"ä¸²å£æµ‹è¯•\n");
+	printf("æˆ‘æ˜¯stm32f103\n");
 	
 	while(1);
 }
@@ -57,7 +57,7 @@ int main(){
 }
 
 
-void Delay(__IO uint32_t nCount)	 //¼òµ¥µÄÑÓÊ±º¯Êı
+void Delay(__IO uint32_t nCount)	 //ç®€å•çš„å»¶æ—¶å‡½æ•°
 {
 	for(; nCount != 0; nCount--);
 }

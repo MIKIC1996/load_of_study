@@ -18,7 +18,7 @@ void led_gpio_config(){
 	init.GPIO_Pin = LED3_GPIO_PIN;
 	GPIO_Init(LED3_GPIO_PORT,&init);
 	
-	//œ»πÿµ∆
+	//ÂÖàÂÖ≥ÁÅØ
 	GPIO_SetBits(LED1_GPIO_PORT,LED1_GPIO_PIN);
 	GPIO_SetBits(LED2_GPIO_PORT,LED2_GPIO_PIN);
 	GPIO_SetBits(LED3_GPIO_PORT,LED3_GPIO_PIN);
@@ -28,7 +28,7 @@ void led_gpio_config(){
 
 
 void open_led(GPIO_TypeDef* port,uint16_t pin){
-	GPIO_ResetBits(port,pin); // ‰≥ˆµÕµÁ∆Ω
+	GPIO_ResetBits(port,pin); //ËæìÂá∫‰ΩéÁîµÂπ≥
 }
 
 void close_led(GPIO_TypeDef* port,uint16_t pin){
