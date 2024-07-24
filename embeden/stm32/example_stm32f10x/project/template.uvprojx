@@ -582,6 +582,16 @@
               <FileType>5</FileType>
               <FilePath>..\user\bsp_systick.h</FilePath>
             </File>
+            <File>
+              <FileName>bsp_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\bsp_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\bsp_usart.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

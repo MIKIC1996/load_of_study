@@ -27,6 +27,9 @@
 #include "bsp_exti.h"
 #include "bsp_led.h"
 #include "bsp_systick.h"
+#include "bsp_usart.h"
+
+
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -168,7 +171,7 @@ void SysTick_Handler(void)
   * @}
   */ 
 	
-	
+	//exti0 中断
 	void KEY1_IRQHandler(void)
 {
   //确保是否产生了EXTI Line中断
@@ -181,6 +184,8 @@ void SysTick_Handler(void)
 	}  
 }
 
+
+///exit 13中断
 void KEY2_IRQHandler(void)
 {
   //确保是否产生了EXTI Line中断
@@ -192,6 +197,20 @@ void KEY2_IRQHandler(void)
 		EXTI_ClearITPendingBit(KEY2_EXTI_LINE);     
 	}  
 }
+
+
+
+///串口中断
+void SDY_USART_IRQ_HANDLER(void){
+
+	///收到数据后立刻回传
+	if(USART_GetITStatus(SDY_USART,USART_IT_RXNE) != RESET){
+		uint8_t tmpCh = USART_ReceiveData(SDY_USART);
+		USART_SendData(SDY_USART,tmpCh);
+	}
+}
+
+
 
 
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

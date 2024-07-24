@@ -2,7 +2,7 @@
 #include "bsp_led.h"
 #include "bsp_exti.h"
 #include "bsp_systick.h"
-
+#include "bsp_usart.h"
 
 #define SOFT_DELAY Delay(0x0FFFFF);
 
@@ -39,10 +39,19 @@ void systick_test(){
 }
 
 
+void usart_test_send_str(){
+	sdy_usart_config();
+	
+	sdy_usart_send_string(SDY_USART,"´®¿Ú²âÊÔ\n");
+	printf("ÎÒÊÇstm32f103\n");
+	
+	while(1);
+}
+
 
 int main(){
 	
-	systick_test();
+	usart_test_send_str();
 	
 	return 0;
 }
