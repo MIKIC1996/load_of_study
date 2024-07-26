@@ -3,6 +3,9 @@
 #include "bsp_exti.h"
 #include "bsp_systick.h"
 #include "bsp_usart.h"
+#include "bsp_dma.h"
+
+
 
 #define SOFT_DELAY Delay(0x0FFFFF);
 
@@ -49,9 +52,48 @@ void usart_test_send_str(){
 }
 
 
+///DMA 存储-》存储测试
+static const uint32_t dma_m_m_src[32]= {
+                                    0x01020304,0x05060708,0x090A0B0C,0x0D0E0F10,
+                                    0x11121314,0x15161718,0x191A1B1C,0x1D1E1F20,
+                                    0x21222324,0x25262728,0x292A2B2C,0x2D2E2F30,
+                                    0x31323334,0x35363738,0x393A3B3C,0x3D3E3F40,
+                                    0x41424344,0x45464748,0x494A4B4C,0x4D4E4F50,
+                                    0x51525354,0x55565758,0x595A5B5C,0x5D5E5F60,
+                                    0x61626364,0x65666768,0x696A6B6C,0x6D6E6F70,
+                                    0x71727374,0x75767778,0x797A7B7C,0x7D7E7F80};
+
+static uint32_t dma_m_m_dst[32];																		
+																		
+
+void dma_test_m_m(){
+	
+  systick_init();
+	led_gpio_config();
+	
+	LED_PURPLE //亮紫色灯
+	delay_s(3) ;//延时3s
+	///DMA传输
+	sdy_dma_m_m_config(dma_m_m_src,dma_m_m_dst,32);
+	///等待
+	while(DMA_GetFlagStatus(SDY_DMA_M_M_FLAG_TC) == RESET);
+
+	///比较传输的结果
+  if(sdy_buffer_cmp(dma_m_m_src,dma_m_m_dst,32)){
+		LED_WHITE;
+	}else{
+		LED_RED;
+	}
+
+	while(1);
+}
+
+
+
+
 int main(){
 	
-	usart_test_send_str();
+	dma_test_m_m();
 	
 	return 0;
 }

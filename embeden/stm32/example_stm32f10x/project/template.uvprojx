@@ -592,6 +592,16 @@
               <FileType>5</FileType>
               <FilePath>..\user\bsp_usart.h</FilePath>
             </File>
+            <File>
+              <FileName>bsp_dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\bsp_dma.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_dma.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\bsp_dma.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
