@@ -17,11 +17,7 @@ void led_exti_test(){
 	led_gpio_config();
 	key_exti_config();
 
-		while (1)
-	{
-
-	}
-	
+  while(1);
 }
 
 
@@ -52,6 +48,7 @@ void usart_test_send_str(){
 }
 
 
+
 ///DMA 存储-》存储测试
 static const uint32_t dma_m_m_src[32]= {
                                     0x01020304,0x05060708,0x090A0B0C,0x0D0E0F10,
@@ -64,8 +61,9 @@ static const uint32_t dma_m_m_src[32]= {
                                     0x71727374,0x75767778,0x797A7B7C,0x7D7E7F80};
 
 static uint32_t dma_m_m_dst[32];																		
+																	
 																		
-
+																		
 void dma_test_m_m(){
 	
   systick_init();
@@ -90,10 +88,62 @@ void dma_test_m_m(){
 
 
 
+uint8_t sstr[101];
+
+void dma_test_m_p(){
+	
+	for(uint32_t i = 0; i< 100 ;++i){			
+		sstr[i] = 'P';
+	}
+	sstr[100] = 0x00;
+	
+	systick_init(); //开启时钟
+	led_gpio_config(); //开启LED
+  
+	sdy_usart_config(); //串口配置
+	sdy_dma_m_p_usart_config((const uint32_t*)sstr,100);
+	
+	///串口请求DMA发送数据
+	USART_DMACmd(SDY_USART,USART_DMAReq_Tx,ENABLE);
+	
+	
+	///CPU闪灯
+	while(1){
+		LED1_TOGGLE
+		delay_s(3);
+	}
+}
+
+void dma_test_p_m(){
+	
+	for(uint32_t i = 0; i< 101 ;++i){			
+		sstr[i] = '\0';
+	}
+	
+	systick_init(); //开启时钟
+	led_gpio_config(); //开启LED
+  
+	sdy_usart_config(); //串口配置
+	sdy_dma_p_m_usart_config((uint32_t*)sstr,100);
+	
+	///串口请求DMA发送数据
+	USART_DMACmd(SDY_USART,USART_DMAReq_Rx,ENABLE);
+	
+	
+	///CPU闪灯
+	while(1){
+		LED1_TOGGLE
+		delay_s(10);
+		sdy_usart_send_string(SDY_USART,(char*)sstr);
+	}
+}
+
+
+
 
 int main(){
 	
-	dma_test_m_m();
+	dma_test_p_m();
 	
 	return 0;
 }

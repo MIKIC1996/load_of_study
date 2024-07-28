@@ -42,11 +42,77 @@ void sdy_dma_m_m_config(const uint32_t* src, uint32_t* dst, uint32_t size ){
 
 
 
-void sdy_dma_m_p_usart_config(const uint32_t src,uint32_t size){
+void sdy_dma_m_p_usart_config(const uint32_t* src,uint32_t size){
 
+	DMA_InitTypeDef init;
+	///开启DMA时钟
+	RCC_AHBPeriphClockCmd(SDY_DMA_M_P_CLOCK,ENABLE);
 	
+	
+	/// 数据源,虽然是m_m，依然把地址写在外设地址
+	init.DMA_PeripheralBaseAddr = (uint32_t)USART_DR_ADDRESS;
+	/// 目标地址
+	init.DMA_MemoryBaseAddr = (uint32_t)src;
+	/// 方向,外设为目标地址
+	init.DMA_DIR = DMA_DIR_PeripheralDST;
+	/// 传输大小
+	init.DMA_BufferSize = size;
+	/// 存储 的地址递增,外设的地址就是DR寄存器，不递增
+	init.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+	init.DMA_MemoryInc = DMA_MemoryInc_Enable;
+	/// 数据单位，全部采用1字节
+	init.DMA_PeripheralDataSize  = DMA_PeripheralDataSize_Byte;
+	init.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+	/// 模式，非循环
+	init.DMA_Mode = DMA_Mode_Normal;
+	/// 优先级 高
+	init.DMA_Priority = DMA_Priority_Medium;
+	/// 使能 m->m 存储到存储
+	init.DMA_M2M = DMA_M2M_Disable;
+	
+	///初始化通道
+	DMA_Init(SDY_DMA_M_P_CHANNAL,&init);
+	///最后使能DMA
+	DMA_Cmd(SDY_DMA_M_P_CHANNAL,ENABLE);
 	
 }
+
+
+
+void sdy_dma_p_m_usart_config(uint32_t* dst,uint32_t size){
+
+	DMA_InitTypeDef init;
+	///开启DMA时钟
+	RCC_AHBPeriphClockCmd(SDY_DMA_M_P_CLOCK,ENABLE);
+	
+	
+	/// 数据源,虽然是m_m，依然把地址写在外设地址
+	init.DMA_PeripheralBaseAddr = (uint32_t)USART_DR_ADDRESS;
+	/// 目标地址
+	init.DMA_MemoryBaseAddr = (uint32_t)dst;
+	/// 方向,外设为源地址
+	init.DMA_DIR = DMA_DIR_PeripheralSRC;
+	/// 传输大小
+	init.DMA_BufferSize = size;
+	/// 存储 的地址递增,外设的地址就是DR寄存器，不递增
+	init.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+	init.DMA_MemoryInc = DMA_MemoryInc_Enable;
+	/// 数据单位，全部采用1字节
+	init.DMA_PeripheralDataSize  = DMA_PeripheralDataSize_Byte;
+	init.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+	/// 模式，非循环
+	init.DMA_Mode = DMA_Mode_Normal;
+	/// 优先级 高
+	init.DMA_Priority = DMA_Priority_Medium;
+	/// 使能 m->m 存储到存储
+	init.DMA_M2M = DMA_M2M_Disable;
+	
+	///初始化通道
+	DMA_Init(SDY_DMA_P_M_CHANNAL,&init);
+	///最后使能DMA
+	DMA_Cmd(SDY_DMA_P_M_CHANNAL,ENABLE);
+}
+
 
 
 
