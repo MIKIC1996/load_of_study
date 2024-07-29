@@ -36,14 +36,10 @@
 
 
 
-
-
 ///调试输出
-#define SDY_I2C_INFO(fmt,arg...)	printf("<EE_INFO> fmt \n",##arg);
-#define SDY_I2C_ERROR(fmt,arg...)	 printf("<EE_ERR> fmt \n",##arg);
-#define SDY_I2C_DEBUG(fmt,arg...)		printf("<EE_DEBUG> fmt \n",##arg);
-
-
+#define SDY_I2C_INFO(fmt,arg...)	printf("<EE_INFO> "fmt"\n",##arg);
+#define SDY_I2C_ERROR(fmt,arg...)	 printf("<EE_ERR> "fmt"\n",##arg);
+#define SDY_I2C_DEBUG(fmt,arg...)		printf("<EE_DEBUG> "fmt"\n",##arg);
 
 
 /*等待超时时间*/
@@ -53,8 +49,19 @@
 
 
 
+void i2c_config();
 
+uint8_t sdy_i2c_ee_writeByte(uint8_t data, uint8_t memAddr);
 
+void sdy_i2c_wait_ee_standby();
+
+uint8_t sdy_i2c_ee_writeBytes(uint8_t* pBuffer,uint8_t WriteAddr, uint16_t NumByteToWrite);
+
+uint8_t sdy_i2c_ee_writePage(const u8* data, u16 size ,u8 memAddr);
+
+uint8_t sdy_i2c_ee_writeBuffer(const u8* data, u16 size ,u8 memAddr);
+
+uint8_t sdy_i2c_ee_readBuffer(u8* dst,u8 memAddr,u16 readSize);
 
 
 #endif

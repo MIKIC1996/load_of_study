@@ -4,7 +4,7 @@
 #include "bsp_systick.h"
 #include "bsp_usart.h"
 #include "bsp_dma.h"
-
+#include "bsp_i2c.h"
 
 
 #define SOFT_DELAY Delay(0x0FFFFF);
@@ -139,11 +139,67 @@ void dma_test_p_m(){
 }
 
 
+uint8_t I2c_Buf_Write[256];
+uint8_t I2c_Buf_Read[256];
+
+
+uint8_t I2C_Test(void)
+{
+	//启用串口调试信息输出
+	sdy_usart_config();
+	
+	///配置I2C
+	i2c_config();
+	
+	sdy_i2c_ee_writePage(I2c_Buf_Write,8,0x00);
+	
+	uint16_t i;
+	printf("data writen into eeprom\n\r");
+	for ( i=0; i<=255; i++ ) //填充缓冲
+  {   
+    I2c_Buf_Write[i] = i;
+
+    printf("0x%02X ", I2c_Buf_Write[i]);
+    if(i%16 == 15)    
+        printf("\n\r");    
+   }
+
+  //将I2c_Buf_Write中顺序递增的数据写入EERPOM中 
+	sdy_i2c_ee_writeBuffer( I2c_Buf_Write, 256 , 0x00);
+  
+  SDY_I2C_INFO("write success\n\r");
+   
+  SDY_I2C_INFO("read data\n\r");
+	 
+  //将EEPROM读出数据顺序保持到I2c_Buf_Read中
+	sdy_i2c_ee_readBuffer(I2c_Buf_Read, 0x00, 256); 
+   
+  //将I2c_Buf_Read中的数据通过串口打印
+	for (i=0; i<256; i++)
+	{	
+		if(I2c_Buf_Read[i] != I2c_Buf_Write[i])
+		{
+			SDY_I2C_ERROR("0x%02X \n\r", I2c_Buf_Read[i]);
+			SDY_I2C_ERROR("error:I2C EEPROM data is not same\n\r");
+			return 0;
+		}
+    printf("0x%02X ", I2c_Buf_Read[i]);
+    if(i%16 == 15)    
+        printf("\n\r");
+    
+	}
+  SDY_I2C_INFO("I2C(AT24C02)test success\n\r");
+  
+  while(1);
+}
+
+
+
 
 
 int main(){
 	
-	dma_test_p_m();
+	I2C_Test();
 	
 	return 0;
 }
