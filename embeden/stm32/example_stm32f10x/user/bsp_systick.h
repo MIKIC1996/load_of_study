@@ -22,4 +22,12 @@ void delay_s(uint32_t s);
 void delay_ms(uint32_t ms);
 
 
+
+void async_count_ms(uint32_t ms);
+
+void async_count_s(uint32_t sec);
+
+uint8_t check_time_out();
+
+
 #endif

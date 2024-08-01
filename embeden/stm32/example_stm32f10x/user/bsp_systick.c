@@ -32,6 +32,8 @@ void disableSystick(){
 void countByInq(){
 	if(counter != 0x00)
 		--counter;
+	else
+		disableSystick(); //到0了自动 关闭中断
 }
 
 
@@ -41,7 +43,6 @@ void delay_s(uint32_t s){
 	counter = s * 1000;
 	enableSystick();
 	while(counter!=0);
-	disableSystick();
 }
 
 
@@ -49,8 +50,7 @@ void delay_s(uint32_t s){
 void delay_ms(uint32_t ms){
 	counter = ms;
 	enableSystick();
-	counter = ms;
-	disableSystick();
+	while(counter!=0);
 }
 
 
@@ -89,4 +89,22 @@ void SysTick_Delay_Ms( __IO uint32_t ms)
 	SysTick->CTRL &=~ SysTick_CTRL_ENABLE_Msk;
 }
 
+
+///异步计时 - ms
+void async_count_ms(uint32_t ms){
+	systick_init(); //初始化
+	counter = ms; 
+	enableSystick(); //激活系统计时
+}
+
+void async_count_s(uint32_t sec){
+	systick_init();
+	counter = sec * 1000;
+	enableSystick();
+}
+
+/// @brief 检查是否超时
+uint8_t check_time_out(){
+	return counter == 0;
+}
 
