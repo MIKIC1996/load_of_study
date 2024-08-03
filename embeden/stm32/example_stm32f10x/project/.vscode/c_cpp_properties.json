@@ -6,9 +6,10 @@
                 "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\lib\\CMSIS",
                 "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\lib\\STM32F10x_StdPeriph_Driver\\inc",
                 "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\user",
+                "D:\\Keil_v5\\ARM\\ARMCC\\include",
+                "D:\\Keil_v5\\ARM\\ARMCC\\include\\rw",
                 "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\lib\\CMSIS\\startup",
-                "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\lib\\STM32F10x_StdPeriph_Driver\\src",
-                "d:\\Keil_v5\\ARM\\ARMCC\\include"
+                "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\lib\\STM32F10x_StdPeriph_Driver\\src"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",

@@ -260,7 +260,7 @@ uint8_t sdy_i2c_ee_writeBuffer(const u8* data, u16 size ,u8 memAddr){
 	///计算在单页中的地址
 	u16 pageAddr = memAddr % SDY_I2C_EE_PAGE_SIZE;
 	///补满第一页，需要的个数
-	u16 firstPageFillCount = SDY_I2C_EE_PAGE_SIZE - pageAddr;
+	u16 firstPageFillCount = (SDY_I2C_EE_PAGE_SIZE - pageAddr) < size ? (SDY_I2C_EE_PAGE_SIZE - pageAddr) : size ;
 
 	while(size > 0){
 		///获取本次实际要写的数目

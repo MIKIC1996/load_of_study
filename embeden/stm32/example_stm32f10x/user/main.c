@@ -195,11 +195,12 @@ uint8_t I2C_Test(void)
 
 
 
+extern sdy_spi_flash_test();
 
 
 int main(){
 	
-	I2C_Test();
+	sdy_spi_flash_test();
 	
 	return 0;
 }
