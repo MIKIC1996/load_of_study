@@ -66,9 +66,9 @@
 #define SDY_FLASH_SECTOR_ERASE              0x20
 ///整片擦除
 #define SDY_FLASH_CHIP_ERASE                0xc7
-
+///进入掉电模式（休眠）
 #define SDY_FLASH_POWER_DOWN                0xb9
-
+///解除掉电模式（唤醒）
 #define SDY_FLASH_RELEASE_POWER_DOWM        0xab
 ///芯片识别号
 #define SDY_FLASH_DEVICE_ID                 0xab
@@ -80,6 +80,33 @@
 
 
 
+/// 函数声明
+void sdy_spi_falsh_config(void);
+
+u8 sdy_spi_flash_send_and_recv_byte(u8 data);
+
+void sdy_spi_flash_write_enable(void);
+
+u32 sdy_spi_flash_read_id(void);
+
+u8 sdy_spi_flash_read_sr(void);
+
+void sdy_spi_flash_wait_for_not_busy(void);
+
+void sdy_spi_flash_erase_sector(u32 sectorAddr);
+
+void sdy_spi_flash_write_page(u8 const* ptr, u32 size, u32 addr);
+
+void sdy_spi_flash_write_buffer(u8 const* ptr , u32 size, u32 addr);
+
+void sdy_spi_flash_read_buffer(u8* dst ,u32 size , u32 addr);
+
+
+void sdy_spi_flash_powerDown(void) ;
+
+void sdy_spi_flash_wakeUp(void) ;
+
+void sdy_spi_flash_test(void);
 
 #endif
 

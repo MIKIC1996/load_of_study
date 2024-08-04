@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F10X_HD</Define>
               <Undefine></Undefine>
-              <IncludePath>..\lib\CMSIS;..\lib\STM32F10x_StdPeriph_Driver\inc;..\user</IncludePath>
+              <IncludePath>..\lib\CMSIS;..\lib\STM32F10x_StdPeriph_Driver\inc;..\user;..\user\fatfs;..\user\fatfs\option</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -631,6 +631,51 @@
               <FileName>stm32f10x_it.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\user\stm32f10x_it.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_fatfs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\bsp_fatfs.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_fatfs.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\bsp_fatfs.h</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\fatfs\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\fatfs\diskio.h</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\fatfs\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\fatfs\ff.h</FilePath>
+            </File>
+            <File>
+              <FileName>ffconf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\fatfs\ffconf.h</FilePath>
+            </File>
+            <File>
+              <FileName>integer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\fatfs\integer.h</FilePath>
+            </File>
+            <File>
+              <FileName>cc936.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\fatfs\option\cc936.c</FilePath>
             </File>
           </Files>
         </Group>

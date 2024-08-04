@@ -6,12 +6,11 @@
 
 
 /// 外部函数声明
-extern void sdy_usart_config();
-
+extern void sdy_usart_config(void);
 
 
 /// @brief 初始化函数
-void sdy_spi_falsh_config(){
+void sdy_spi_falsh_config(void){
     ///spi时钟使能
     SDY_SPI_APBX_CLK_CMD(SDY_SPI_CLK,ENABLE);
     ///falsh相关GPIO使能
@@ -104,7 +103,7 @@ u8 sdy_spi_flash_send_and_recv_byte(u8 data){
 
 
 ///写使能（）
-void sdy_spi_flash_write_enable(){
+void sdy_spi_flash_write_enable(void){
     SDY_SPI_NSS_LOW()
 
     sdy_spi_flash_send_and_recv_byte(SDY_FLASH_WRITE_ENABLE);
@@ -114,7 +113,7 @@ void sdy_spi_flash_write_enable(){
 
 
 ///读取芯片的ID
-u32 sdy_spi_flash_read_id(){
+u32 sdy_spi_flash_read_id(void){
     
     ///片选NSS低电平，表示开始通讯
     SDY_SPI_NSS_LOW()
@@ -138,7 +137,7 @@ u32 sdy_spi_flash_read_id(){
 
 
 /// 读取flash的状态寄存器，可以用来确认其是否忙碌
-u8 sdy_spi_flash_read_sr(){
+u8 sdy_spi_flash_read_sr(void){
     SDY_SPI_NSS_LOW()
     ///写入指令
     sdy_spi_flash_send_and_recv_byte(SDY_FLASH_READ_STATUS_REGISTER);
@@ -151,7 +150,7 @@ u8 sdy_spi_flash_read_sr(){
 
 
 /// @brief 如果是进行flash存储矩阵的写入操作（不是单纯像上面一样发指令），当写入以后，需要检查flash的状态寄存器，检查是否忙碌状态
-void sdy_spi_flash_wait_for_not_busy(){
+void sdy_spi_flash_wait_for_not_busy(void){
 
     SDY_SPI_NSS_LOW()
     ///写入指令
@@ -259,6 +258,36 @@ void sdy_spi_flash_read_buffer(u8* dst ,u32 size , u32 addr){
 
 }
 
+
+//进入掉电模式
+void sdy_spi_flash_powerDown(void)   
+{ 
+  /* 通讯开始：CS低 */
+  SDY_SPI_NSS_LOW();
+
+  /* 发送 掉电 命令 */
+  sdy_spi_flash_send_and_recv_byte(SDY_FLASH_POWER_DOWN);
+
+  /*通讯结束：CS高 */
+  SDY_SPI_NSS_HIGH();
+}   
+
+//唤醒
+void sdy_spi_flash_wakeUp(void)   
+{
+  /*选择 FLASH: CS 低 */
+  SDY_SPI_NSS_LOW();
+
+  /* 发送 上电 命令 */
+  sdy_spi_flash_send_and_recv_byte(SDY_FLASH_RELEASE_POWER_DOWM);
+
+   /* 停止信号 FLASH: CS 高 */
+  SDY_SPI_NSS_HIGH();
+}  
+
+
+
+
 /* 获取缓冲区的长度 */
 #define  countof(a)      (sizeof(a) / sizeof(*(a)))
 #define  BufferSize (countof(Tx_Buffer)-1)
@@ -267,7 +296,7 @@ void sdy_spi_flash_read_buffer(u8* dst ,u32 size , u32 addr){
 uint8_t Tx_Buffer[] = "pan jia yi tuo ku zi\r\n";
 uint8_t Rx_Buffer[BufferSize];
 
-void sdy_spi_flash_test(){
+void sdy_spi_flash_test(void){
     sdy_spi_falsh_config();
     sdy_usart_config(); //启用串口
 
@@ -300,9 +329,10 @@ void sdy_spi_flash_test(){
     sdy_spi_flash_read_buffer(Rx_Buffer, BufferSize,0x00);
     printf("\r\n readData: %s \r\n", Rx_Buffer);
     
-    
 	while(1);
 }
+
+
 
 
 

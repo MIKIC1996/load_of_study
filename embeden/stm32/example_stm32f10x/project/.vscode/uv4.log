@@ -1,3 +1,9 @@
-Load "d:\\jmq_code\\load_of_study\\embeden\\stm32\\example_stm32f10x\\project\\Objects\\template.axf" 
-Full Chip Erase Done.Programming Done.Verify OK.Application running ...
-Flash Load finished at 22:56:46
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling main.c...
+..\user\main.c(3): error:  #5: cannot open source input file "ff.h": No such file or directory
+  #include "ff.h"
+..\user\main.c: 0 warnings, 1 error
+".\Objects\template.axf" - 1 Error(s), 0 Warning(s).
+Target not created.
+Build Time Elapsed:  00:00:01
