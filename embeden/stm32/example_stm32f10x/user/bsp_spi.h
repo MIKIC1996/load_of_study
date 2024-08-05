@@ -106,7 +106,10 @@ void sdy_spi_flash_powerDown(void) ;
 
 void sdy_spi_flash_wakeUp(void) ;
 
+void sdy_spi_flash_erase_chip(void);
+
 void sdy_spi_flash_test(void);
+
 
 #endif
 

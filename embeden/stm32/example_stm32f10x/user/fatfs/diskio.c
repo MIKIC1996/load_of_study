@@ -1,29 +1,29 @@
 /*-----------------------------------------------------------------------*/
-/* Low level disk I/O module skeleton for FatFs     (C)ChaN, 2016        */
+/* Low level disk I/O module skeleton for FatFs     (C)ChaN, 2014        */
 /*-----------------------------------------------------------------------*/
 /* If a working storage control module is available, it should be        */
 /* attached to the FatFs via a glue function rather than modifying it.   */
 /* This is an example of glue functions to attach various exsisting      */
 /* storage control modules to the FatFs module with a defined API.       */
-/* 这个是一个案例文件													   */
 /*-----------------------------------------------------------------------*/
 
 #include "diskio.h"		/* FatFs lower layer API */
 
-///SPI驱动函数文件
 #include "bsp_spi.h"
 
-///屏蔽这些案例，改成自己的
+//#include "usbdisk.h"	/* Example: Header file of existing USB MSD control module */
+//#include "atadrive.h"	/* Example: Header file of existing ATA harddisk control module */
+//#include "sdcard.h"		/* Example: Header file of existing MMC/SDC contorl module */
+
 /* Definitions of physical drive number for each drive */
-//#define DEV_RAM		0	/* Example: Map Ramdisk to physical drive 0 */
-//#define DEV_MMC		1	/* Example: Map MMC/SD card to physical drive 1 */
-//#define DEV_USB		2	/* Example: Map USB MSD to physical drive 2 */
+///#define ATA		0	/* Example: Map ATA harddisk to physical drive 0 */
+///#define MMC		1	/* Example: Map MMC/SD card to physical drive 1 */
+///#define USB		2	/* Example: Map USB MSD to physical drive 2 */
 
 
 ///移植修改,设备编号
 #define SDY_FATFS_DEV_ATA			0 //预留SD卡
 #define SDY_FATFS_DEV_SPI_FLASH 	1 //spi flash
-
 
 
 /*-----------------------------------------------------------------------*/
@@ -87,8 +87,8 @@ DSTATUS disk_initialize (
 DRESULT disk_read (
 	BYTE pdrv,		/* Physical drive nmuber to identify the drive */
 	BYTE *buff,		/* Data buffer to store read data */
-	DWORD sector,	/* Start sector in LBA */
-	UINT count		/* Number of sectors to read 读取的扇区数量 */
+	DWORD sector,	/* Sector address in LBA */
+	UINT count		/* Number of sectors to read */
 )
 {
 	DRESULT res = RES_PARERR; //初始化 无效参数
@@ -113,10 +113,11 @@ DRESULT disk_read (
 /* Write Sector(s)                                                       */
 /*-----------------------------------------------------------------------*/
 
+#if _USE_WRITE
 DRESULT disk_write (
 	BYTE pdrv,			/* Physical drive nmuber to identify the drive */
 	const BYTE *buff,	/* Data to be written */
-	DWORD sector,		/* Start sector in LBA */
+	DWORD sector,		/* Sector address in LBA */
 	UINT count			/* Number of sectors to write */
 )
 {
@@ -136,13 +137,14 @@ DRESULT disk_write (
 
 	return res;
 }
-
+#endif
 
 
 /*-----------------------------------------------------------------------*/
 /* Miscellaneous Functions                                               */
 /*-----------------------------------------------------------------------*/
 
+#if _USE_IOCTL
 DRESULT disk_ioctl (
 	BYTE pdrv,		/* Physical drive nmuber (0..) */
 	BYTE cmd,		/* Control code */
@@ -160,24 +162,23 @@ DRESULT disk_ioctl (
 		/* 扇区数量：1536*4096/1024/1024=6(MB) */
 		case GET_SECTOR_COUNT:
 			*(DWORD*)buff = 1546;
-			res = RES_OK;
 			break;
 		///扇区大小KB
 		case GET_SECTOR_SIZE: 
 			*(WORD*)buff = 4096; 
-			res = RES_OK;
 			break; 
 		///同时 擦除扇区的个数,只有一个
 		case GET_BLOCK_SIZE:
 			*(DWORD*)buff = 1;
-			res = RES_OK;
 			break;
 		}
+		res = RES_OK;
 		
 	}
 
 	return res;
 }
+
 
 
 ///时间戳获取
@@ -192,3 +193,5 @@ __weak DWORD get_fattime(void)
             | ((DWORD)0 >> 1);        /* Sec 0 */
 }
 
+
+#endif

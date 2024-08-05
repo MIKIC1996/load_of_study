@@ -285,6 +285,22 @@ void sdy_spi_flash_wakeUp(void)
   SDY_SPI_NSS_HIGH();
 }  
 
+//整片擦除
+void sdy_spi_flash_erase_chip(){
+	
+	sdy_spi_flash_write_enable();
+	
+	/*选择 FLASH: CS 低 */
+  SDY_SPI_NSS_LOW();
+
+  /* 发送 上电 命令 */
+  sdy_spi_flash_send_and_recv_byte(SDY_FLASH_CHIP_ERASE);
+
+   /* 停止信号 FLASH: CS 高 */
+  SDY_SPI_NSS_HIGH();
+	
+	sdy_spi_flash_wait_for_not_busy();
+}
 
 
 

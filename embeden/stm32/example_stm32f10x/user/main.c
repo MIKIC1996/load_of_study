@@ -199,7 +199,8 @@ uint8_t I2C_Test(void)
 
 
 /// @brief flash 测试
-extern sdy_spi_flash_test();
+extern sdy_spi_flash_test(void);
+
 
 
 
@@ -210,7 +211,7 @@ FRESULT res_flash;                /* 文件操作结果 */
 UINT fnum;            					  /* 文件成功读写数量 */
 BYTE ReadBuffer[1024]={0};        /* 读缓冲区 */
 BYTE WriteBuffer[] =              /* 写缓冲区*/
-"欢迎使用野火STM32开发板 今天是个好日子，新建文件系统测试文件\r\n"; 
+"pan jia yi tuo ku zi\r\n"; 
 
 
 void sdy_fatfs_file_test(){
@@ -218,20 +219,20 @@ void sdy_fatfs_file_test(){
 	/*----------------------- 文件系统测试：写测试 -------------------*/
 	/* 打开文件，每次都以新建的形式打开，属性为可写 */
 	printf("\r\n****** file write test ******\r\n");	
-	res_flash = f_open(&fnew, "1:FatFs读写测试文件.txt",FA_CREATE_ALWAYS | FA_WRITE );
+	res_flash = f_open(&fnew, "1:FatFsTest.txt",FA_CREATE_ALWAYS | FA_WRITE );
 	if ( res_flash == FR_OK )
 	{
-		printf("》打开/创建FatFs读写测试文件.txt文件成功，向文件写入数据。\r\n");
+		printf(">open/create FatFsTest.txt success,writing data into it now.\r\n");
     /* 将指定存储区内容写入到文件内 */
 		res_flash=f_write(&fnew,WriteBuffer,sizeof(WriteBuffer),&fnum);
     if(res_flash==FR_OK)
     {
-      printf("》文件写入成功，写入字节数据：%d\n",fnum);
-      printf("》向文件写入的数据为：\r\n%s\r\n",WriteBuffer);
+      printf(">write success,write data:%d\n",fnum);
+      printf(">data:\r\n%s\r\n",WriteBuffer);
     }
     else
     {
-      printf("！！文件写入失败：(%d)\n",res_flash);
+      printf("！！write failed:(%d)\n",res_flash);
     }    
 		/* 不再读写，关闭文件 */
     f_close(&fnew);
@@ -239,37 +240,40 @@ void sdy_fatfs_file_test(){
 	else
 	{	
 		LED_RED;
-		printf("！！打开/创建文件失败。\r\n");
+		printf(">open/create file failed \r\n");
 	}
 	
 /*------------------- 文件系统测试：读测试 --------------------------*/
-	printf("****** 即将进行文件读取测试... ******\r\n");
-	res_flash = f_open(&fnew, "1:FatFs读写测试文件.txt",FA_OPEN_EXISTING | FA_READ); 	 
+	printf("****** file read test... ******\r\n");
+	res_flash = f_open(&fnew, "1:FatFsTest.txt",FA_OPEN_EXISTING | FA_READ); 	 
 	if(res_flash == FR_OK)
 	{
 		LED_GREEN;
-		printf("》打开文件成功。\r\n");
+		printf(">open file success.\r\n");
 		res_flash = f_read(&fnew, ReadBuffer, sizeof(ReadBuffer), &fnum); 
     if(res_flash==FR_OK)
     {
-      printf("》文件读取成功,读到字节数据：%d\r\n",fnum);
-      printf("》读取得的文件数据为：\r\n%s \r\n", ReadBuffer);	
+      printf(">file read success,data: %d\r\n",fnum);
+      printf(">read data:\r\n%s \r\n", ReadBuffer);	
     }
     else
     {
-      printf("！！文件读取失败：(%d)\n",res_flash);
+      printf("read file failed:(%d)\n",res_flash);
     }		
 	}
 	else
 	{
 		LED_RED;
-		printf("！！打开文件失败。\r\n");
+		printf("open file failed.\r\n");
 	}
 	/* 不再读写，关闭文件 */
 	f_close(&fnew);	
 
 }
 
+
+extern void sdy_spi_falsh_config(void);
+extern void sdy_spi_flash_erase_chip(void);
 
 int sdy_fatfs_test(void)
 {
@@ -279,27 +283,33 @@ int sdy_fatfs_test(void)
 	
 	/* 初始化调试串口，一般为串口1 */
 	sdy_usart_config();	
-  printf("****** 这是一个SPI FLASH 文件系统实验 ******\r\n");
   
+	///先把flash全片擦除
+	printf("now erase chip\r\n");
+	sdy_spi_falsh_config();
+	sdy_spi_flash_erase_chip();
+	printf("erase chip success\r\n");
+
+	
 	//在外部SPI Flash挂载文件系统，文件系统挂载时会对SPI设备初始化
 	//初始化函数调用流程如下
 	//f_mount()->find_volume()->disk_initialize->SPI_FLASH_Init()
 	res_flash = f_mount(&fs,"1:",1);
 	
-/*----------------------- 格式化测试 -----------------*/  
-	/* 如果没有文件系统就格式化创建创建文件系统 */
+  //----------------------- 格式化测试 ------ 
+	// 如果没有文件系统就格式化创建创建文件系统 
 	if(res_flash == FR_NO_FILESYSTEM)
 	{
 		printf("> FLASH no file system , will create one...\r\n");
-    /* 格式化 */
+    // 格式化 
 		res_flash=f_mkfs("1:",0,0);							
 		
 		if(res_flash == FR_OK)
 		{
-			printf("> FLASH create file system success。\r\n");
-      /* 格式化后，先取消挂载 */
+			printf("> FLASH create file system success. \r\n");
+      // 格式化后，先取消挂载 
 			res_flash = f_mount(NULL,"1:",1);			
-      /* 重新挂载	*/			
+      // 重新挂载			
 			res_flash = f_mount(&fs,"1:",1);
 		}
 		else
@@ -320,7 +330,10 @@ int sdy_fatfs_test(void)
     printf("> The file system has been successfully mounted and can be tested for read and write operations\r\n");
   }
   
-
+	
+	
+	///文件测试
+	sdy_fatfs_file_test();
 
 
 

@@ -642,6 +642,14 @@
               <FileType>5</FileType>
               <FilePath>..\user\bsp_fatfs.h</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>DOC</GroupName>
+        </Group>
+        <Group>
+          <GroupName>FATFS</GroupName>
+          <Files>
             <File>
               <FileName>diskio.c</FileName>
               <FileType>1</FileType>
@@ -678,9 +686,6 @@
               <FilePath>..\user\fatfs\option\cc936.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>DOC</GroupName>
         </Group>
       </Groups>
     </Target>
