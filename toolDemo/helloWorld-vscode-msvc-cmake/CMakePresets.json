@@ -1,0 +1,49 @@
+{
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "vs2019_configure_debug",
+            "displayName": "Visual Studio Community 2019 Release - amd64 -Configure -Debug",
+            "description": "Using compilers for Visual Studio 16 2019 (x64 architecture)",
+            "generator": "Visual Studio 16 2019",
+            "toolset": "host=x64",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "vs2019_configure_release",
+            "displayName": "Visual Studio Community 2019 Release - amd64 -Configure -Release",
+            "description": "Using compilers for Visual Studio 16 2019 (x64 architecture)",
+            "generator": "Visual Studio 16 2019",
+            "toolset": "host=x64",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "vs2019_build_debug",
+            "displayName": "Visual Studio Community 2019 Release - amd64 -Build - Debug",
+            "configurePreset": "vs2019_configure_debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2019_build_release",
+            "displayName": "Visual Studio Community 2019 Release - amd64 -Build - Release",
+            "configurePreset": "vs2019_configure_release",
+            "configuration": "Release"
+        }
+    ]
+}
